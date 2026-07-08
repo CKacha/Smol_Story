@@ -1,23 +1,59 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+const {
+	title = 'symbolsilious',
+	description = 'A long scrolling canvas where you draw symbols with your cursor to conjure visual effects: ripples, lightning, sparks, and vortexes.',
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<link rel="icon" type="image/jpeg" href="/favicon.jpg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
+	@font-face {
+		font-family: 'Caliblock';
+		src:
+			url('/fonts/Caliblock-Regular.ttf') format('truetype'),
+			url('/fonts/Caliblock-Regular.otf') format('opentype');
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
 	html,
 	body {
 		margin: 0;
+		padding: 0;
 		width: 100%;
-		height: 100%;
+		background: #000000;
+		color: #ffffff;
+		font-family: 'Caliblock', Georgia, serif;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
 	}
 </style>

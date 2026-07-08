@@ -1,0 +1,119 @@
+[
+	{
+		"id": "dusk",
+		"order": 1,
+		"chapter": "I, The Long Road Home",
+		"theme": "dusk",
+		"lines": [
+			"The sun bled low over the millet fields.",
+			"A farmer walked the dusty road home, his back bent from the work of the day.",
+			"In the cold breath of evening, something stirred at the roadside.",
+			"A snake - half-frozen, trembling, a hair's breadth from death.",
+			"\"Warm me,\" it pleaded. \"Carry me inside you, and I will trouble you no more.\""
+		],
+		"interaction": {
+			"type": "trace",
+			"shape": "spiral",
+			"prompt": "Pity moves your hand. Trace the coil to gather the snake in.",
+			"hint": "Press and drag along the spiral, from the outside inward.",
+			"success": "You cup the frozen coil, and it slides - grateful - into your warmth."
+		}
+	},
+	{
+		"id": "belly",
+		"order": 2,
+		"chapter": "II, A Guest That Will Not Leave",
+		"theme": "belly",
+		"lines": [
+			"Warmed within, the snake grew strong once more.",
+			"\"Come out now,\" said the farmer. \"You are well again.\"",
+			"\"No,\" it hissed. \"It is warm here. Here I will stay.\"",
+			"Fear knotted the farmer's chest. He needed wiser counsel than his own."
+		],
+		"interaction": {
+			"type": "type",
+			"glyph": "H",
+			"key": "h",
+			"prompt": "Call across the marsh for the wise Heron.",
+			"hint": "Press the H key to call out.",
+			"success": "A white heron unfolds from the reeds and glides down to listen."
+		}
+	},
+	{
+		"id": "marsh",
+		"order": 3,
+		"chapter": "III, The Wise Heron",
+		"theme": "marsh",
+		"lines": [
+			"The heron tilted its head and heard the whole sorry tale.",
+			"\"Hold still,\" it said, \"and open wide.\"",
+			"Its long beak slid down - patient, precise, unhurried."
+		],
+		"interaction": {
+			"type": "trace",
+			"shape": "beak",
+			"prompt": "Guide the heron's beak down to seize the snake. Trace the line.",
+			"hint": "Drag straight down, following the slender curve.",
+			"success": "In one clean pull the snake is drawn out and dashed upon the stones."
+		}
+	},
+	{
+		"id": "shadow",
+		"order": 4,
+		"chapter": "IV · A Shadow in the Heart",
+		"theme": "shadow",
+		"lines": [
+			"The farmer breathed free - yet dread lingered like venom.",
+			"\"Eat white meat,\" the heron advised, \"to burn out any poison left behind.\"",
+			"The farmer studied the heron. White of feather. White of meat.",
+			"A cruel thought coiled in the warm place the snake had left behind."
+		],
+		"interaction": {
+			"type": "type",
+			"glyph": "✕",
+			"key": "x",
+			"prompt": "Greed whispers. Press X to seize the one who saved you.",
+			"hint": "Press the X key to betray the heron.",
+			"success": "He snatches the heron, stuffs it into a sack, and carries it home."
+		}
+	},
+	{
+		"id": "hearth",
+		"order": 5,
+		"chapter": "V · The Kind Wife",
+		"theme": "hearth",
+		"lines": [
+			"At home he told the tale, proud of his cunning.",
+			"His wife's heart sank. \"The bird saved you - and this is its reward?\"",
+			"She could not bear it. Quietly, she reached for the sack to set the heron free."
+		],
+		"interaction": {
+			"type": "trace",
+			"shape": "release",
+			"prompt": "Help her loosen the drawstring. Trace the opening.",
+			"hint": "Drag upward along the slash to pull the cord free.",
+			"success": "The sack falls open - and the terrified bird bursts out in a fury of wings."
+		}
+	},
+	{
+		"id": "river",
+		"order": 6,
+		"chapter": "VI · Water Does Not Flow Uphill",
+		"theme": "river",
+		"lines": [
+			"In its panic, the heron's talons found her eyes, and it was gone into the dark.",
+			"The farmer spared the snake - the snake would not leave.",
+			"The heron spared the farmer - the farmer would cage it.",
+			"The wife freed the heron - the heron blinded her.",
+			"Kindness flows ever onward, downstream, and does not return the way it came.",
+			"Whenever you see water climbing uphill - someone, somewhere, is repaying a kindness."
+		],
+		"interaction": {
+			"type": "trace",
+			"shape": "river",
+			"prompt": "Let the story settle. Trace the river as it runs down and away.",
+			"hint": "Drag from the high bank down to the far shore.",
+			"success": "- The Snake, the Farmer, and the Heron -"
+		}
+	}
+]

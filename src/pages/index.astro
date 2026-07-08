@@ -1,11 +1,297 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+function spiralPoints() {
+	const pts: string[] = [];
+	for (let i = 0; i <= 80; i++) {
+		const t = i / 80;
+		const a = t * 2 * Math.PI * 2;
+		const r = 46 - 36 * t;
+		const x = 60 + Math.cos(a) * r;
+		const y = 60 + Math.sin(a) * r;
+		pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+	}
+	return pts.join(' ');
+}
+
+const symbols = [
+	{
+		name: 'Circle',
+		effect: 'Ripples',
+		desc: 'Draw a closed loop to send a few rings pulsing outward.',
+		accent: '#5f8fae',
+		svg: '<circle cx="60" cy="60" r="42" />',
+	},
+	{
+		name: 'Zigzag',
+		effect: 'Lightning',
+		desc: 'Just make a W and a small burst of lightning will show up.',
+		accent: '#c76b3f',
+		svg: '<polyline points="18,40 42,80 66,40 90,80 108,45" />',
+	},
+	{
+		name: 'Star',
+		effect: 'Sparks',
+		desc: 'Trace a star (normal overlapping way is fine) for a smol burst of golden sparks.',
+		accent: '#d9a441',
+		svg: '<polygon points="60,14 72,46 106,46 78,68 88,102 60,82 32,102 42,68 14,46 48,46" />',
+	},
+	{
+		name: 'Spiral',
+		effect: 'Vortex',
+		desc: 'Draw a spiral inwards to create a swirling vortex.',
+		accent: '#8a6a45',
+		svg: `<polyline points="${spiralPoints()}" />`,
+	},
+	{
+		name: 'Wave',
+		effect: 'Rising motes',
+		desc: 'Make a upside-down w to release some motes drifting upward.',
+		accent: '#6f9260',
+		svg: '<path d="M14 60 q15 -34 30 0 t30 0 t30 0" />',
+	},
+];
 ---
 
 <Layout>
-	<Welcome />
+	<canvas id="fx"></canvas>
+	<div id="fx-toast" class="fx-toast" data-ok="true"></div>
+
+	<main class="page">
+		<section class="hero reveal">
+			<p class="eyebrow">Trace & Create!</p>
+			<h1 class="title">Draw and make some<br />stuff happen</h1>
+			<p class="lede">
+				Move your cursor and <b>draw anywhere</b> on the screen. If you trace a specific
+				symbol, something will happen! Scroll down to learn them.
+			</p>
+			<div class="scroll-cue" aria-hidden="true">
+				<span>scroll</span>
+				<div class="line"></div>
+			</div>
+		</section>
+
+		{
+			symbols.map((s, i) => (
+				<section class="symbol reveal" style={`--accent:${s.accent}`}>
+					<div class="symbol-inner">
+						<div class="glyph">
+							<svg viewBox="0 0 120 120" fill="none" set:html={s.svg} />
+						</div>
+						<div class="copy">
+							<span class="index">{String(i + 1).padStart(2, '0')}</span>
+							<h2>
+								{s.name} <span class="arrow">→</span> {s.effect}
+							</h2>
+							<p>{s.desc}</p>
+						</div>
+					</div>
+				</section>
+			))
+		}
+
+		<section class="outro reveal">
+			<h2>Now draw.</h2>
+			<p>Scroll back up and conjure anywhere on the page.</p>
+		</section>
+	</main>
 </Layout>
+
+<script>
+	import { initTraceEffects } from '../scripts/trace-effects';
+	initTraceEffects();
+</script>
+
+<style>
+	#fx {
+		position: fixed;
+		inset: 0;
+		z-index: 50;
+		cursor: crosshair;
+		touch-action: pan-y; 
+	}
+
+	.fx-toast {
+		position: fixed;
+		bottom: 1.6rem;
+		left: 50%;
+		transform: translate(-50%, 20px);
+		z-index: 60;
+		padding: 0.5rem 1.2rem;
+		border-radius: 2px;
+		font-size: 0.9rem;
+		letter-spacing: 0.06em;
+		background: #0a0a0a;
+		border: 2px solid #3a3a3a;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.3s, transform 0.3s;
+	}
+	.fx-toast.show {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+	.fx-toast[data-ok='false'] {
+		color: #888888;
+	}
+	.fx-toast[data-ok='true'] {
+		color: #ffffff;
+	}
+
+	.page {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+	}
+
+	section {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: clamp(2rem, 7vw, 6rem);
+		box-sizing: border-box;
+		text-align: center;
+	}
+
+	.reveal {
+		opacity: 0;
+		transform: translateY(34px);
+		transition: opacity 0.9s ease, transform 0.9s ease;
+	}
+	.reveal.in {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.5em;
+		font-size: 0.72rem;
+		color: #999999;
+		margin: 0 0 1.6rem;
+	}
+
+	.title {
+		font-family: 'Caliblock', Georgia, serif;
+		font-weight: 400;
+		font-size: clamp(3rem, 12vw, 8rem);
+		line-height: 0.92;
+		margin: 0 0 1.8rem;
+		letter-spacing: 0.01em;
+	}
+
+	.lede {
+		max-width: 44ch;
+		line-height: 1.7;
+		font-size: clamp(1rem, 2.4vw, 1.25rem);
+		color: #cccccc;
+		margin: 0;
+	}
+	.lede b {
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.scroll-cue {
+		position: absolute;
+		bottom: 2.2rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.68rem;
+		letter-spacing: 0.35em;
+		text-transform: uppercase;
+		color: #888888;
+	}
+	.scroll-cue .line {
+		width: 2px;
+		height: 46px;
+		background: linear-gradient(#6e5c42, transparent);
+		animation: drop 1.8s ease-in-out infinite;
+		transform-origin: top;
+	}
+	@keyframes drop {
+		0% { transform: scaleY(0); opacity: 0; }
+		40% { transform: scaleY(1); opacity: 1; }
+		100% { transform: scaleY(1) translateY(46px); opacity: 0; }
+	}
+
+	.symbol-inner {
+		display: flex;
+		align-items: center;
+		gap: clamp(1.5rem, 6vw, 5rem);
+		max-width: 900px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.glyph svg {
+		width: clamp(120px, 26vw, 220px);
+		height: clamp(120px, 26vw, 220px);
+		stroke: var(--accent);
+		stroke-width: 4;
+		stroke-linecap: square;
+		stroke-linejoin: miter;
+		fill: none;
+	}
+	.glyph polygon {
+		fill: color-mix(in srgb, var(--accent) 18%, transparent);
+	}
+	.copy {
+		text-align: left;
+		max-width: 34ch;
+	}
+	.copy .index {
+		font-family: 'Caliblock', Georgia, serif;
+		font-size: 0.9rem;
+		color: var(--accent);
+		opacity: 0.7;
+		letter-spacing: 0.2em;
+	}
+	.copy h2 {
+		font-family: 'Caliblock', Georgia, serif;
+		font-weight: 400;
+		font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+		margin: 0.4rem 0 0.8rem;
+		line-height: 1.1;
+	}
+	.copy .arrow {
+		color: var(--accent);
+		margin: 0 0.2rem;
+	}
+	.copy p {
+		margin: 0;
+		line-height: 1.7;
+		color: #cccccc;
+		font-size: clamp(0.95rem, 2vw, 1.1rem);
+	}
+
+	.outro h2 {
+		font-family: 'Caliblock', Georgia, serif;
+		font-weight: 400;
+		font-size: clamp(2.4rem, 8vw, 5rem);
+		margin: 0 0 1rem;
+	}
+	.outro p {
+		color: #999999;
+		letter-spacing: 0.04em;
+	}
+
+	@media (max-width: 640px) {
+		.copy {
+			text-align: center;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.reveal {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+		.scroll-cue .line {
+			animation: none;
+		}
+	}
+</style>
