@@ -18,7 +18,7 @@ const symbols = [
 	{
 		name: 'Circle',
 		effect: 'Ripples',
-		desc: 'Draw a closed loop to send a few rings pulsing outward.',
+		desc: 'Draw a complete closed circle to send a few rings outward.',
 		accent: '#5f8fae',
 		svg: '<circle cx="60" cy="60" r="42" />',
 	},
@@ -32,7 +32,7 @@ const symbols = [
 	{
 		name: 'Star',
 		effect: 'Sparks',
-		desc: 'Trace a star (normal overlapping way is fine) for a smol burst of golden sparks.',
+		desc: 'Trace a star (normal & overlapping way is fine) for a smol burst of golden sparks.',
 		accent: '#d9a441',
 		svg: '<polygon points="60,14 72,46 106,46 78,68 88,102 60,82 32,102 42,68 14,46 48,46" />',
 	},
@@ -49,6 +49,8 @@ const symbols = [
 		desc: 'Make a upside-down w to release some motes drifting upward.',
 		accent: '#6f9260',
 		svg: '<path d="M14 60 q15 -34 30 0 t30 0 t30 0" />',
+		linkWord: 'motes',
+		linkHref: 'https://www.merriam-webster.com/dictionary/mote',
 	},
 ];
 ---
@@ -59,11 +61,11 @@ const symbols = [
 
 	<main class="page">
 		<section class="hero reveal">
-			<p class="eyebrow">Trace & Create!</p>
+			<p class="eyebrow">blehblehbleh</p>
 			<h1 class="title">Draw and make some<br />stuff happen</h1>
 			<p class="lede">
-				Move your cursor and <b>draw anywhere</b> on the screen. If you trace a specific
-				symbol, something will happen! Scroll down to learn them.
+				<b>Draw anywhere</b> on the screen. If you trace a specific
+				symbol, something will happen! Scroll down to learn which symbols make what happen.
 			</p>
 			<div class="scroll-cue" aria-hidden="true">
 				<span>scroll</span>
@@ -83,7 +85,19 @@ const symbols = [
 							<h2>
 								{s.name} <span class="arrow">→</span> {s.effect}
 							</h2>
-							<p>{s.desc}</p>
+							<p>
+								{s.linkWord ? (
+									<>
+										{s.desc.split(s.linkWord)[0]}
+										<a href={s.linkHref} target="_blank" rel="noopener noreferrer">
+											{s.linkWord}
+										</a>
+										{s.desc.split(s.linkWord)[1]}
+									</>
+								) : (
+									s.desc
+								)}
+							</p>
 						</div>
 					</div>
 				</section>
@@ -91,8 +105,8 @@ const symbols = [
 		}
 
 		<section class="outro reveal">
-			<h2>Now draw.</h2>
-			<p>Scroll back up and conjure anywhere on the page.</p>
+			<h2>Now drawwwwwwwwwww</h2>
+			<p>you can draw anywhere on da page btw</p>
 		</section>
 	</main>
 </Layout>
@@ -266,6 +280,14 @@ const symbols = [
 		line-height: 1.7;
 		color: #cccccc;
 		font-size: clamp(0.95rem, 2vw, 1.1rem);
+	}
+	.copy p a {
+		color: #ffffff;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+	.copy p a:hover {
+		color: var(--accent);
 	}
 
 	.outro h2 {
